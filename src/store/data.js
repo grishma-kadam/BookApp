@@ -17,6 +17,9 @@ const dataSlice=createSlice({
         },
         actionData(state){
             state.status='not updated'
+        },
+        clearData(state){
+            state.books=[]
         }
     }
 })

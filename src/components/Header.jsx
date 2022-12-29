@@ -8,19 +8,19 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-
 import {Link } from 'react-router-dom'
+import { AuthContext } from '../store/authContext'
+import { useContext } from 'react'
+import useLogout from '../hooks/useLogout';
 
 
+function Header() {
 
+  const {user}=useContext(AuthContext)
+  const {logout}=useLogout()
 
-
-function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] =useState();
 
   const handleOpenNavMenu = (event) => {
@@ -32,13 +32,14 @@ function ResponsiveAppBar() {
   };
 
 
-  
+  const onlogout=async()=>{
+await logout()
+  }
   
   return (
     <AppBar position="sticky" style={{width:"100%",boxSizing:"border-box",margin:0,padding:0}}>
       <Container maxWidth="xl"  >
         <Toolbar disableGutters >
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -70,6 +71,7 @@ function ResponsiveAppBar() {
               <MenuIcon />
             </IconButton>
           
+            {user &&
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -88,22 +90,56 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <Link to="/add">
+              <Link to="/add" style={{color:"#080906",textDecoration:'none'}}>
                 <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">ADD</Typography>
+                  <Typography textAlign="center">Add</Typography>
                 </MenuItem>
                 </Link>
                 <MenuItem  onClick={handleCloseNavMenu}>
-                <Link to="/"><Typography textAlign="center">Show ALL</Typography></Link>
+                <Link to="/" style={{color:"#080906",textDecoration:'none'}}><Typography textAlign="center">Show All</Typography></Link>
                 </MenuItem>
+                <MenuItem  >
+                <Link onClick={onlogout} style={{color:"#080906",textDecoration:'none'}} >Log Out</Link>
+                </MenuItem>
+                
               
             </Menu>
-         
+}
+{
+  !user &&    <Menu
+  id="menu-appbar"
+  anchorEl={anchorElNav}
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'left',
+  }}
+  keepMounted
+  transformOrigin={{
+    vertical: 'top',
+    horizontal: 'left',
+  }}
+  open={Boolean(anchorElNav)}
+  onClose={handleCloseNavMenu}
+  sx={{
+    display: { xs: 'block', md: 'none' },
+  }}
+>
+  <Link to="/user/login">
+    <MenuItem  onClick={handleCloseNavMenu}>
+      <Typography textAlign="center">Log In</Typography>
+    </MenuItem>
+    </Link>
+    <MenuItem  onClick={handleCloseNavMenu}>
+    <Link to="/user/signup"><Typography textAlign="center">Sign Up</Typography></Link>
+    </MenuItem>
+  
+</Menu>
+}
           </Box>
           <Box sx={{padding:2}}>
-
-          </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+       
+         
+        
           <Typography
             variant="h5"
             noWrap
@@ -122,10 +158,10 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
-         
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             
-          <Link to="/add" style={{textDecoration:"none"}}>
+          {user && <><Link to="/add" style={{textDecoration:"none"}}>
               <Button
                
                 onClick={handleCloseNavMenu}
@@ -143,7 +179,34 @@ function ResponsiveAppBar() {
                 Show All
               </Button>
               </Link>
-            
+              <Button onClick={onlogout}>
+              <Link style={{textDecoration:'none',color:"#fff",padding:"0px 0px 0px 20px"}}>Log Out</Link>
+              </Button>
+
+              </>
+}
+{
+  !user && <><Link to="/user/signup" style={{textDecoration:"none"}}>
+  <Button
+   
+    onClick={handleCloseNavMenu}
+    sx={{ my: 2, color: 'white', display: 'block' }}
+  >
+    Sign Up
+  </Button>
+  </Link>
+  <Link to="/user/login" style={{textDecoration:"none"}}>
+  <Button
+   
+    onClick={handleCloseNavMenu}
+    sx={{ my: 2, color: 'white', display: 'block' }}
+  >
+    Log In
+  </Button>
+  </Link>
+  </>
+}
+
           </Box>
 
           
@@ -152,4 +215,4 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Header;
