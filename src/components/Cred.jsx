@@ -4,10 +4,23 @@ import { TextField } from '@mui/material'
 import { Typography } from '@material-ui/core'
 import { useParams } from 'react-router-dom'
 import { Button } from '@mui/material'
+import { Snackbar } from '@mui/material';
+import {Alert} from '@mui/material'
 import useLogin from '../hooks/useLogin'
 import useSignup from '../hooks/useSignup'
 
 const Cred = () => {
+    const [open, setOpen] = React.useState(false);
+
+  
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
     const [type, setType] = useState('signup')
     const [valid, setValid] = useState(true)
 
@@ -19,6 +32,7 @@ const Cred = () => {
     const { id } = useParams()
 
     const [data, setData] = useState({
+        name:"",
         email: "",
         password: ''
     })
@@ -39,7 +53,7 @@ const Cred = () => {
         else {
             setType('signup')
             setData(prevData => ({
-                ...prevData, name: "", confirm: ""
+                ...prevData, confirm: ""
             }))
 
             setError(signerror)
@@ -50,6 +64,9 @@ const Cred = () => {
            }
             setLoading(signloading)
         }
+        if(signerror || lerror){
+            setOpen(true)
+        }
         console.log(error)
     }, [id,signerror,lerror]);
 
@@ -59,6 +76,7 @@ const Cred = () => {
         if (type === 'signup') {
             if (data.password !== data.confirm) {
                 setValid(false)
+               
                 return
             }
             await signup(data)
@@ -90,8 +108,12 @@ const Cred = () => {
                 </Box>
 
             </form>
-            {error && <div style={{ color: "#D22B2B", fontSize: '1rem', border: '1px solid red', backgroundColor: 'rgba(255,0,0,0.2)', padding: '10px 5px ' }}>{error}</div>}
-
+            {error && <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+  <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+    
+       {error}
+  </Alert>
+</Snackbar>}
         </div>
     )
 }

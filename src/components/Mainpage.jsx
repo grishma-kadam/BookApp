@@ -15,6 +15,8 @@ export default function Mainpage() {
 
   const { user } = useContext(AuthContext)
   const status = useSelector(state => state.status)
+  const [search, setSearch] = useState("")
+
   const dispatch = useDispatch()
   const getData = async () => {
     console.log(user.token)
@@ -127,13 +129,17 @@ export default function Mainpage() {
   useEffect(() => {
     setData([...books])
     console.log(books)
-
-  }, [books]);
+    if (search != "") {
+      setData(prevData => prevData.filter(p => p.name.toLowerCase().includes(search) || p.author.toLowerCase().includes(search)))
+    }
+    else {
+      setData([...books])
+    }
+  }, [books,search]);
 
 
 
   console.log(data)
-  const [search, setSearch] = useState()
   const handleClick = (e) => {
     e.preventDefault()
     setData([...books])

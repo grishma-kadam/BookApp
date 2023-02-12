@@ -54,13 +54,9 @@ const Add = () => {
       } catch (err) {
         console.log(err.message)
       }
-      // initialState.name=
-      // initialState.author=res.data.author
-      // initialState.date=res.data.date
-      // initialState.price=res.data.price
-      // initialState.isbn=res.data.isbn
+      
 
-      console.log(initialState)
+      
     }
 
 
@@ -184,7 +180,7 @@ const Add = () => {
           <TextField variant="outlined" label='Book' type="text" fullWidth margin='normal' value={data.name} name="name" onChange={onChangeData} error={!valid.name} helperText={!valid.name && "Book name required"} />
           <TextField variant="outlined" label='Author' type="text" fullWidth margin='normal' value={data.author} name="author" onChange={onChangeData} error={!valid.author} helperText={!valid.author && "Author name required"} />
           <TextField variant="outlined" label='Date of Publish' type="date" fullWidth margin='normal' value={data.date} name="date" onChange={onChangeData} />
-          <TextField variant="outlined" label='Price' type="number" fullWidth margin='normal' value={data.price} name="price" onChange={onChangeData} />
+          <TextField variant="outlined" label='Price' type="number" fullWidth margin='normal' value={data.price} name="price" onChange={onChangeData} InputProps={{inputProps:{min:0}}}/>
           <TextField variant="outlined" label='ISBN' type="text" fullWidth margin='normal' value={data.isbn} name="isbn" onChange={onChangeData} error={!valid.isbn} helperText={!valid.isbn && "ISBN required"} />
 
           <Select

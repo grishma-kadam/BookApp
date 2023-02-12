@@ -8,6 +8,7 @@ export const AuthContextProvider=({children})=>{
     const authReducer=(state,action)=>{
 
         if(action.type=='LOGIN'){
+           
 
             return {
                 user:action.payload
@@ -16,6 +17,14 @@ export const AuthContextProvider=({children})=>{
         else if(action.type=='LOGOUT'){
             return {
                 user:null
+            }
+        }
+        else if(action.type=='IMAGE'){
+           const u={...state.user,image:action.payload}
+           localStorage.setItem('user',JSON.stringify(u))
+           console.log(u)
+            return{
+                user:u
             }
         }
 
@@ -30,6 +39,7 @@ export const AuthContextProvider=({children})=>{
         let user=localStorage.getItem('user')
         if(user){
             dispatch({type:'LOGIN',payload:JSON.parse(user)})
+            console.log(user)
         }
     }, []);
 

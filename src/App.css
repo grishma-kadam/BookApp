@@ -7,6 +7,7 @@ body{
   margin: 0 ;
   text-align: center;
   padding:0;
+ 
 }
 
 .logo {
@@ -36,3 +37,38 @@ body{
   }
 }
 
+.container {
+  margin-top: 63px;
+	height: 65vh !important;
+	width: 100vw !important;
+  background-color: rgba(0,0,0,0.5);
+ position: relative;
+}
+
+.container-cropper {
+  /* margin-top: 63px; */
+	height: 100%;
+  
+}
+
+.cropper {
+	height: 90%;
+	position: relative;
+}
+
+.slider {
+	height: 10%;
+	display: flex;
+	align-items: center;
+	margin: auto;
+	width: 60%;
+}
+
+.container-buttons {
+  padding: 2rem;
+	height: 30%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  background-color: rgba(0,0,0,0.5);
+}

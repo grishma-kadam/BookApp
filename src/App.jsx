@@ -6,23 +6,30 @@ import {Routes,Route, Navigate} from 'react-router-dom'
 import Mainpage from './components/Mainpage'
 import { AuthContext } from './store/authContext'
 import { useContext,useEffect } from 'react'
+import Profile from'./components/Profile'
 import Cred from './components/Cred'
+import CropImage from './components/CropImage'
+import ProfilePic from './components/avatar/ProfilePic'
 function App() {
 
 const {user}=useContext(AuthContext)
 
 useEffect(() => {
-
+console.log(user)
 }, [user]);
 
   return (
     <div >
-       <Header/>
+       <Header/> 
+      
       <Routes>
-        <Route path='/' element={user?<Mainpage/>:<Navigate to="/user/login"/>}></Route>
-        <Route path="/user/:id" element={!user?<Cred/>:<Navigate to="/"/>}></Route>
+      <Route path="/profile" element={user?<Profile/>:<Navigate to="/user/login"/>}></Route>
+      <Route path="/user/:id" element={!user?<Cred/>:<Navigate to="/"/>}></Route>
+      <Route path="/avatar" element={<ProfilePic/>}></Route>
         <Route path="/:id" element={user?<Add/>:<Navigate to="/user/login"/>}></Route>
-      </Routes>
+        <Route path='/' element={user?<Mainpage/>:<Navigate to="/user/login"/>}></Route>
+      
+      </Routes> 
      
     </div>
   )
